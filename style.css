@@ -1,0 +1,42 @@
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;overflow:hidden;background:#f3e0b6;color:#3a2a24;font-family:"Avenir Next","Segoe UI",system-ui,sans-serif}
+#patch{position:fixed;inset:0;overflow:hidden;isolation:isolate;
+  background:
+    repeating-linear-gradient(0deg,transparent 0 46px,#d8b98a33 46px 48px),
+    radial-gradient(ellipse at 50% 35%,#f9ebc9 0,#f1dcae 70%,#e6cc9a 100%)}
+.tom{position:absolute;top:0;left:0;padding:0;border:0;background:none;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;will-change:transform;outline:none;user-select:none}
+.tom:focus-visible{outline:3px dashed #7a3b2e;border-radius:50%;outline-offset:2px}
+.shadow{position:absolute;bottom:8%;left:18%;width:64%;height:14%;background:#7a5a3a40;border-radius:50%}
+.hop,.turn,.face,.back{position:absolute;inset:0;display:block}
+.turn{transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.flipped .turn{transform:scaleX(-1)}
+.face,.back{transition:opacity 0s .2s}
+.back{opacity:0;transform:scaleX(-1)}
+.flipped .face{opacity:0}
+.flipped .back{opacity:1}
+.tom svg{width:100%;height:100%;overflow:visible}
+.chosen{filter:drop-shadow(0 0 8px #fff2a8)}
+.note{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-3deg);
+  display:grid;place-items:center;width:clamp(136px,11vw,172px);min-height:84px;padding:16px 12px 14px;
+  background:linear-gradient(150deg,#fff6b0,#ffe27a);color:#3a2d2a;
+  font:600 clamp(15px,1.2vw,18px)/1.2 "Marker Felt","Chalkboard SE","Trebuchet MS",sans-serif;
+  text-align:center;text-wrap:balance;box-shadow:1px 4px 6px #46352a40;border-radius:1px 2px 9px 2px}
+.note::before{content:"";position:absolute;width:36px;height:11px;top:-5px;left:calc(50% - 18px);transform:rotate(3deg);background:#f1d5a9e8}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:10000;overflow:hidden}
+#confetti i{position:absolute;top:-5vh;width:11px;height:18px;border-radius:4px;animation:fall var(--time) linear infinite}
+@keyframes fall{to{transform:translate(var(--drift),110vh) rotate(440deg)}}
+#toast{position:fixed;z-index:10001;left:50%;bottom:28px;transform:translateX(-50%);
+  width:min(92vw,360px);padding:14px 18px 12px;background:#fff8e6;border:2px solid #3a2a24;border-radius:14px;
+  box-shadow:0 6px 18px #3a2a2433;text-align:center}
+#toast p{margin:0 0 10px;font-weight:600}
+#toast .bar{height:6px;background:#e9d6b0;border-radius:3px;overflow:hidden}
+#toast .bar i{display:block;height:100%;width:100%;background:#e8402f;transform-origin:left;animation:drain 5s linear forwards}
+@keyframes drain{to{transform:scaleX(0)}}
+#again{position:fixed;z-index:10002;bottom:24px;right:24px;border:2px solid #3a2a24;background:#fff8e6;color:#3a2a24;
+  border-radius:50%;width:48px;height:48px;cursor:pointer;display:grid;place-items:center}
+#again svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sr{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden;white-space:nowrap}
+@media(prefers-reduced-motion:reduce){.turn,.face,.back{transition:none}#confetti i{animation:none;top:var(--quiet-y)}#toast .bar i{animation:none}}
