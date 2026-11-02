@@ -39,8 +39,16 @@
     return bag;
   }
   function measure(){
-    W=patch.clientWidth;H=patch.clientHeight;
+    W=patch.clientWidth||innerWidth;H=patch.clientHeight||innerHeight;
     base=clamp(Math.sqrt(W*H/COUNT)*.78,64,200);
+  }
+  // Re-fit when the patch changes size (rotation, iOS toolbars, late stylesheet).
+  function fit(){
+    const stale=H<120||W<120;
+    measure();
+    if(stale&&H>=120&&W>=120&&!won){start();return;}
+    for(const p of cast){const m=p.s*.5;p.x=clamp(p.x,m,W-m);p.y=clamp(p.y,p.s*.62,H-m);}
+    if(open)placeNote(open);
   }
   function draw(p){
     const hop=motion.matches?0:p.z;
@@ -146,11 +154,9 @@
     last=performance.now();frame=requestAnimationFrame(tick);
   }
   replay.addEventListener('click',start);
-  addEventListener('resize',()=>{
-    measure();
-    for(const p of cast){const m=p.s*.5;p.x=clamp(p.x,m,W-m);p.y=clamp(p.y,p.s*.62,H-m);}
-    if(open)placeNote(open);
-  });
+  if('ResizeObserver' in window)new ResizeObserver(fit).observe(patch);
+  else addEventListener('resize',fit);
+  addEventListener('orientationchange',()=>setTimeout(fit,300));
   addEventListener('keydown',e=>{if(e.key==='Escape'&&won)start();});
   start();
 })();
